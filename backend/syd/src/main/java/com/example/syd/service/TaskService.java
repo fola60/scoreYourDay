@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,5 +20,10 @@ public class TaskService {
     public List<Task> getTasks(Integer id) {
 
         return taskRepo.getAllTaskById(id);
+    }
+
+    public void saveTask(Task task) {
+        task.setTimeAdded(LocalDate.now());
+        taskRepo.save(task);
     }
 }
