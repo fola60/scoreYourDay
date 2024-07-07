@@ -52,7 +52,7 @@ public class OAuth2LoginSuccessHandler extends SavedRequestAwareAuthenticationSu
                         newUser.setId(Integer.parseInt(userId));
                         userService.saveUser(newUser);
                     });
-            String redirectUrl = "http://localhost:3000/details?id=" + userId;
+            String redirectUrl = "http://localhost:3000/?id=" + userId;
             response.sendRedirect(redirectUrl);
         }
         this.setAlwaysUseDefaultTargetUrl(true);
