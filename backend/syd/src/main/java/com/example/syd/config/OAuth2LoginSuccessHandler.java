@@ -32,8 +32,8 @@ public class OAuth2LoginSuccessHandler extends SavedRequestAwareAuthenticationSu
     @Value("${frontend.url}")
     private String frontendUrl;
 
-
-    public void OnAuthenticationSuccess(HttpServletRequest request,HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request,HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
         OAuth2AuthenticationToken oAuth2AuthenticationToken = (OAuth2AuthenticationToken) authentication;
         if ("google".equals(oAuth2AuthenticationToken.getAuthorizedClientRegistrationId())) {
             DefaultOAuth2User principal = (DefaultOAuth2User) authentication.getPrincipal();
@@ -42,14 +42,14 @@ public class OAuth2LoginSuccessHandler extends SavedRequestAwareAuthenticationSu
             String name = attributes.getOrDefault("name", "").toString();
             String userId = (String) attributes.get("sub");
 
-            userService.findByUserId(Integer.parseInt(userId))
+            userService.findByUserId(userId)
                     .ifPresentOrElse(user -> {
 
                     }, () -> {
                         User newUser = new User();
                         newUser.setEmail(email);
                         newUser.setName(name);
-                        newUser.setId(Integer.parseInt(userId));
+                        newUser.setId(userId);
                         userService.saveUser(newUser);
                     });
             String redirectUrl = "http://localhost:3000/?id=" + userId;

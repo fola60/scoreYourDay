@@ -25,8 +25,13 @@ public class taskController {
     private TaskService taskService;
 
     @GetMapping("/getTasks/{id}")
-    public List<Task> getAllTasks(@PathVariable Integer id) {
+    public List<Task> getAllTasks(@PathVariable String id) {
         return taskService.getTasks(id);
+    }
+
+    @GetMapping("/updateTasks/{task}")
+    public void updateTaskById(@PathVariable Task task) {
+        taskService.updateTask(task);
     }
 
     @PostMapping
@@ -34,4 +39,11 @@ public class taskController {
         taskService.saveTask(task);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+    @DeleteMapping("/deleteTask/{id}")
+    public void deleteTaskById(@PathVariable Long id) {
+        taskService.deleteTask(id);
+    }
+
+
 }

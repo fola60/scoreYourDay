@@ -12,7 +12,7 @@ import java.time.LocalDate;
 public class User {
     @Id
     @Column(name = "id")
-    private Integer id;
+    private String id;
 
     @Column(name="email")
     private String email;
@@ -24,11 +24,11 @@ public class User {
     private LocalDate timeAdded;
 
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

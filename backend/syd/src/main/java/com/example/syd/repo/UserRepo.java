@@ -10,9 +10,12 @@ import java.util.Optional;
 
 
 @Repository
-public interface UserRepo extends JpaRepository<User,Integer> {
+public interface UserRepo extends JpaRepository<User,String> {
     @Query(value = "SELECT * FROM user_table where id = :id", nativeQuery = true)
-    public Optional<User> getUserById(Integer id);
+    public Optional<User> getUserById(String id);
+
+    @Query(value = "DELETE FROM user_table WHERE id = :id", nativeQuery = true)
+    public void deleteUser(Long id);
 
 
 }

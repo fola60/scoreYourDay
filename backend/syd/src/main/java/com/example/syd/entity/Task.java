@@ -14,10 +14,13 @@ import java.time.LocalDate;
 public class Task {
     @Id
     @Column(name="id")
-    private Integer id;
+    private String id;
 
     @Column(name="task_name")
     private String taskName;
+
+    @Column(name="task_id")
+    private Long taskId;
 
     @Column(name="task_date")
     private LocalDate taskDate;
@@ -35,11 +38,11 @@ public class Task {
         this.taskName = taskName;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -57,5 +60,13 @@ public class Task {
 
     public void setTimeAdded(LocalDate timeAdded) {
         this.timeAdded = timeAdded;
+    }
+
+    public Long getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Long taskId) {
+        this.taskId = taskId;
     }
 }

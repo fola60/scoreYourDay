@@ -17,7 +17,7 @@ public class TaskService {
     @Autowired
     private TaskRepo taskRepo;
 
-    public List<Task> getTasks(Integer id) {
+    public List<Task> getTasks(String id) {
 
         return taskRepo.getAllTaskById(id);
     }
@@ -25,5 +25,14 @@ public class TaskService {
     public void saveTask(Task task) {
         task.setTimeAdded(LocalDate.now());
         taskRepo.save(task);
+    }
+
+    public void deleteTask(Long id) {
+        taskRepo.deleteTask(id);
+    }
+
+    public void updateTask(Task task) {
+        deleteTask(task.getTaskId());
+        saveTask(task);
     }
 }

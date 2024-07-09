@@ -9,7 +9,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TaskRepo extends JpaRepository<Task,Integer> {
+public interface TaskRepo extends JpaRepository<Task,String> {
     @Query(value = "SELECT * FROM task_table WHERE id = :id", nativeQuery = true)
-    public List<Task> getAllTaskById(Integer id);
+    public List<Task> getAllTaskById(String id);
+
+    @Query(value = "DELETE FROM task_table WHERE task_id = :task_id", nativeQuery = true)
+    public void deleteTask(Long task_id);
+
+
 }
