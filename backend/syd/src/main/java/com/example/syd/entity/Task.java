@@ -1,10 +1,7 @@
 package com.example.syd.entity;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
@@ -19,7 +16,8 @@ public class Task {
     @Column(name="task_name")
     private String taskName;
 
-    @Column(name="task_id")
+    @Column(name="task_id",nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long taskId;
 
     @Column(name="task_date")
