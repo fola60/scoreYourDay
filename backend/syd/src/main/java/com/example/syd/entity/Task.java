@@ -16,9 +16,11 @@ public class Task {
     @Column(name="task_name")
     private String taskName;
 
+    @Column(name = "task_description")
+    private String taskDescription;
+
     @Column(name="task_id",nullable = false, unique = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long taskId;
+    private String taskId;
 
     @Column(name="task_date")
     private LocalDate taskDate;
@@ -60,11 +62,19 @@ public class Task {
         this.timeAdded = timeAdded;
     }
 
-    public Long getTaskId() {
+    public String getTaskId() {
         return taskId;
     }
 
-    public void setTaskId(Long taskId) {
+    public void setTaskId(String taskId) {
         this.taskId = taskId;
+    }
+
+    public String getTaskDescription() {
+        return taskDescription;
+    }
+
+    public void setTaskDescription(String taskDescription) {
+        this.taskDescription = taskDescription;
     }
 }

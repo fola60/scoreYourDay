@@ -14,7 +14,7 @@ public interface TaskRepo extends JpaRepository<Task,String> {
     public List<Task> getAllTaskById(String id);
 
     @Query(value = "DELETE FROM task_table WHERE task_id = :task_id", nativeQuery = true)
-    public void deleteTask(Long task_id);
+    public void deleteTask(String task_id);
 
 
 }

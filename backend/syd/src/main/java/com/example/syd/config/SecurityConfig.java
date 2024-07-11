@@ -37,7 +37,7 @@ public class SecurityConfig {
                     auth.anyRequest().authenticated();
                 })
                 .oauth2Login(oath2 -> {
-                    //oath2.loginPage("/login").permitAll();
+                    oath2.loginPage("/login").permitAll();
                     oath2.successHandler((AuthenticationSuccessHandler) oAuth2LoginSuccessHandler);
                 })
                 .build();

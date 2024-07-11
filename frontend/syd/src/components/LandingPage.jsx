@@ -1,7 +1,6 @@
 import "../styles/LandingPage.css"
 import { useState,useEffect } from "react";
 import { useLocation } from 'react-router-dom';
-import { redirect } from "react-router-dom";
 import AddTask from "./AddTask";
 
 function useQuery() {

@@ -1,17 +1,21 @@
 //File to execute all crud operations
 
-const SEREVR_URL = "http://localhost:8080";
+export const SEREVR_URL = "http://localhost:8080";
 
 export async function createTask(task) {
+        
+        
+        console.log(task);
         const requestOptions = {
             method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(task)
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(task),
+            credentials: "include"
         }
         try {
-            const response = fetch (
+            const response = await fetch (
                 SEREVR_URL + '/tasks',
                 requestOptions
             )
