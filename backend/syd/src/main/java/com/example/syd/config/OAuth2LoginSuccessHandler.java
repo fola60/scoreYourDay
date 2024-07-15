@@ -23,8 +23,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+
+
 @Component
 public class OAuth2LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler{
+    private String googleId = "";
+    public String getGoogleId() {
+        return googleId;
+    }
 
     @Autowired
     private UserService userService;
@@ -41,6 +47,7 @@ public class OAuth2LoginSuccessHandler extends SavedRequestAwareAuthenticationSu
             String email = attributes.getOrDefault("email", "").toString();
             String name = attributes.getOrDefault("name", "").toString();
             String userId = (String) attributes.get("sub");
+            googleId = userId;
 
             userService.findByUserId(userId)
                     .ifPresentOrElse(user -> {

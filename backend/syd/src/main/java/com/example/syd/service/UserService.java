@@ -31,4 +31,8 @@ public class UserService {
     public void deleteUser(Long id) {
         userRepo.deleteUser(id);
     }
+
+    public User getByIdExist(String id) {
+        return userRepo.getById(id);
+    }
 }

@@ -13,20 +13,23 @@ public class Task {
     @Column(name="id")
     private String id;
 
+    @Column(name = "user_id")
+    private String userId;
+
     @Column(name="task_name")
     private String taskName;
 
     @Column(name = "task_description")
     private String taskDescription;
 
-    @Column(name="task_id",nullable = false, unique = true)
-    private String taskId;
-
     @Column(name="task_date")
     private LocalDate taskDate;
 
     @Column(name="time_added")
     private LocalDate timeAdded;
+
+    @Column(name = "task_completion")
+    private Integer taskCompletion = 0;
 
 
 
@@ -36,14 +39,6 @@ public class Task {
 
     public void setTaskName(String taskName) {
         this.taskName = taskName;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public LocalDate getTaskDate() {
@@ -62,13 +57,7 @@ public class Task {
         this.timeAdded = timeAdded;
     }
 
-    public String getTaskId() {
-        return taskId;
-    }
 
-    public void setTaskId(String taskId) {
-        this.taskId = taskId;
-    }
 
     public String getTaskDescription() {
         return taskDescription;
@@ -76,5 +65,29 @@ public class Task {
 
     public void setTaskDescription(String taskDescription) {
         this.taskDescription = taskDescription;
+    }
+
+    public String getUser_id() {
+        return userId;
+    }
+
+    public void setUser_id(String user_id) {
+        this.userId = user_id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Integer getTaskCompletion() {
+        return taskCompletion;
+    }
+
+    public void setTaskCompletion(Integer taskCompletion) {
+        this.taskCompletion = taskCompletion;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.syd.service;
 
 
+import com.example.syd.config.OAuth2LoginSuccessHandler;
 import com.example.syd.entity.Task;
 import com.example.syd.repo.TaskRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import java.util.Optional;
 
 @Service
 public class TaskService {
+    @Autowired
+    private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
     @Autowired
     private TaskRepo taskRepo;
@@ -24,6 +27,7 @@ public class TaskService {
 
     public void saveTask(Task task) {
         task.setTimeAdded(LocalDate.now());
+        task.setUser_id(oAuth2LoginSuccessHandler.getGoogleId());
         taskRepo.save(task);
     }
 
@@ -32,7 +36,7 @@ public class TaskService {
     }
 
     public void updateTask(Task task) {
-        deleteTask(task.getTaskId());
+        deleteTask(task.getId());
         saveTask(task);
     }
 }

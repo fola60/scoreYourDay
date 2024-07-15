@@ -69,3 +69,30 @@ export async function deleteTask(taskId) {
         console.error('error delete: ' + error);
     }
 }
+
+export async function updateGoal(date,task) {
+    // only need to pass id and completion goal in to task object.
+    //date should be a string of day,week,month or year.
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(task),
+        credentials: "include"
+    }
+    try {
+        const response = fetch(
+            SEREVR_URL + "/users" + date,
+            requestOptions
+        )
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const result = await response.json();
+        console.log('Success:', result);
+    } catch (error) {
+        console.error('error' + error);
+    }
+    
+}

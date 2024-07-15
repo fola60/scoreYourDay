@@ -1,0 +1,28 @@
+
+
+.task {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 100%;
+    height:fit-content;
+    padding: 1rem;
+    border-radius: 0.1rem;
+    border-bottom: solid grey 0.1rem;
+    border-color: grey;
+}
+
+.task:hover {
+    border: solid grey 0.1rem;
+}
+
+.top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.name {
+    font-weight: bold;
+    padding:0.5rem;
+}

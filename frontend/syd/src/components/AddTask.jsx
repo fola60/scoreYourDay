@@ -6,6 +6,8 @@ import {createTask} from '../Crud.jsx'
 import DatePicker from 'react-datepicker'
 import { useLocation } from 'react-router-dom';
 import {v4 as uuid4} from 'uuid'
+import 'react-datepicker/dist/react-datepicker.css';
+
 
 function useQuery() {
 
@@ -14,21 +16,23 @@ function useQuery() {
 }
 
 export default function AddTask() {
+  const query = useQuery();
+  const id = query.get('id');
+  const [taskName,setTaskName] = useState("");
+  const [taskDate,setTaskDate] = useState("");
+  const [taskDes,setTaskDes] = useState(""); //task description
 
   useEffect(() => {
     const newId = uuid4();
       setPostObj({
-        "id" : id,
-        "taskId": newId,
+        "id": newId,
         "taskName": taskName,
         "taskDescription": taskDes,
-        "taskDate": taskDate,
-        "time_added": currentDate
+        "taskDate": taskDate
       })
-  },[])
+  },[taskDate,taskName,taskDes,id])
 
-  const query = useQuery();
-  const id = query.get('id');
+  
   const [show, setShow] = useState(false);
 
 
@@ -38,9 +42,6 @@ export default function AddTask() {
 
   const handleShow = () => setShow(true);
 
-  const [taskName,setTaskName] = useState("");
-  const [taskDate,setTaskDate] = useState("");
-  const [taskDes,setTaskDes] = useState(""); //task description
 
   const currentDate = new Date();
 
@@ -51,12 +52,10 @@ export default function AddTask() {
   async function saveChanges() {
     const newId = uuid4();
     setPostObj({
-      "id" : id,
-      "taskId": newId,
+      "id": newId,
       "taskName": taskName,
       "taskDescription": taskDes,
       "taskDate": taskDate,
-      "time_added": currentDate
     })
     await createTask(postObj);
     handleClose();
@@ -93,10 +92,10 @@ export default function AddTask() {
             </Form.Group>
           </Form>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>Task Date</Form.Label>
+            <Form.Label>Task Date:  </Form.Label>
             <DatePicker
               selected={taskDate}
-              onChange={(date) => setTaskDate(date.target.value)}
+              onChange={(date) => setTaskDate(date)}
               placeholderText='Set the end date for your task.'
               className='form-control'
             />
