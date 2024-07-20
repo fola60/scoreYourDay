@@ -1,0 +1,64 @@
+
+
+.container-sb{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    gap:1rem;
+    background-color: #3457D5;
+    width:fit-content;
+    height:100%;
+    padding:0.5rem;
+}
+
+.header-sb {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    padding:0.5rem;
+    border-bottom: 1px solid white;
+}
+
+.brand-name {
+    font-family: "Bowlby One", sans-serif;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.elements-sb {
+    display: flex;
+    flex-direction: column;
+    padding:0.5rem;
+    border-bottom: 1px solid white;
+    gap:2.2rem;
+}
+
+.el {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.6rem;
+    display: flex;
+    flex-direction: row;
+    gap:0.5rem;
+    align-items: center;
+    justify-content: center;
+    color: #E8E8E8;
+}
+
+.el:hover {
+    font-size: 1.7rem;
+    color: #F0F0F0;
+}
+
+.close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    background-color: rgba(255,255,255,0.5);
+    font-size: 1.8rem;
+    border-radius: 50%;
+    color: white;
+}

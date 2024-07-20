@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import {createTask,readTasks} from '../Crud.jsx'
+import {readTasks, updateTask} from '../Crud.jsx'
 import DatePicker from 'react-datepicker'
 import { useLocation } from 'react-router-dom';
 import {v4 as uuid4} from 'uuid'
@@ -16,14 +16,13 @@ function useQuery() {
 
 }
 
-export default function AddTask() {
-  const query = useQuery();
+export default function UpdateTask({ prevTaskName, prevTaskDate , prevTaskDes, taskId}) {
   const dispatch = useDispatch();
+  const query = useQuery();
   const id = query.get('id');
   const [taskName,setTaskName] = useState("");
   const [taskDate,setTaskDate] = useState("");
   const [taskDes,setTaskDes] = useState(""); //task description
-  const [postObj,setPostObj] = useState({});
 
   useEffect(() => {
     const newId = uuid4();
@@ -39,16 +38,15 @@ export default function AddTask() {
   const [show, setShow] = useState(false);
 
 
-  const handleClose = () => {
+  const handleClose = async () => {
     setShow(false);
+    
   };
 
   const handleShow = () => setShow(true);
 
 
-  const currentDate = new Date();
-
- 
+  const [postObj,setPostObj] = useState({});
 
   
 
@@ -60,22 +58,22 @@ export default function AddTask() {
       "taskDescription": taskDes,
       "taskDate": taskDate,
     })
-    await createTask(postObj);
-    let result = await readTasks(id);
+    await updateTask(taskId,postObj);
+    const result = await readTasks(id);
     dispatch(setTasksRedux(result));
     handleClose();
-    
+
   }
 
   return (
     <>
       <Button variant="primary" onClick={handleShow}>
-        Add Task
+        Update Task
       </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Add Task</Modal.Title>
+          <Modal.Title>Update Task</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -85,6 +83,7 @@ export default function AddTask() {
                 type="text"
                 placeholder="groceries..."
                 onChange={(e) => setTaskName(e.target.value)}
+                defaultValue={prevTaskName}
                 autoFocus
               />
             </Form.Group>
@@ -93,7 +92,7 @@ export default function AddTask() {
               controlId="exampleForm.ControlTextarea1"
             >
               <Form.Label>Task Description</Form.Label>
-              <Form.Control as="textarea" rows={3} placeholder='Grab milk and ...' onChange={(e) => setTaskDes(e.target.value)}/>
+              <Form.Control as="textarea" rows={3} placeholder='Grab milk and ...' onChange={(e) => setTaskDes(e.target.value)} defaultValue={prevTaskDes}/>
             </Form.Group>
           </Form>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -101,9 +100,9 @@ export default function AddTask() {
             <DatePicker
               selected={taskDate}
               onChange={(date) => setTaskDate(date)}
-              placeholderText={currentDate}
+              placeholderText='9/25/2024'
               className='form-control'
-              defaultValue={currentDate}
+              defaultValue={prevTaskDate}
             />
           </Form.Group>
         </Modal.Body>

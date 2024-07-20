@@ -4,37 +4,49 @@ import { useLocation } from 'react-router-dom';
 import AddTask from "./AddTask";
 import { readTasks } from "../Crud";
 import Tasks from "./Tasks";
+import { getWeeks } from "./ArrangeDates";
+import { useSelector, useDispatch } from "react-redux";
+import { setTasksRedux,fetchTasks } from "../taskSlice";
+import SideBar from "./SideBar";
+
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
 
 export default function LandingPage() {
+    const dispatch = useDispatch()
+    
+    const { value, status, error } = useSelector((state) => state.task);
+
+
     const query = useQuery();
     const id = query.get('id');
 
-    const [tasks,setTasks] = useState([])
-    const getTasks = async () => {
-        const result = await readTasks(id);
-        setTasks(result)
-    }
+    
+    const [taskWeek,setTaskWeek] = useState([])
+    
     useEffect(() => {
-        getTasks();
-    },[id])
+        dispatch(fetchTasks(id));
+      }, [id, dispatch]);
+
    
+    
 
    
     return (
         <>
             <div className="container-LP">
-                <h1 className="header-LP">ScoreYourDay</h1>
+                <div className="sidebar">
+                    <SideBar />
+                </div>
                 <div className="bodyContainer-LP">
                     <div className="sidebar-LP">
                         <AddTask />
                     </div>
                     <div className="body-LP">
                         <div className="display-tasks">
-                            <Tasks tasks={tasks}/>
+                            <Tasks tasks={value}/>
                         </div>
                     </div>
                 </div>
