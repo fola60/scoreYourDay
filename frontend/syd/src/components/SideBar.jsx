@@ -5,8 +5,18 @@ import { FaWrench } from "react-icons/fa6";
 import { FaChartBar } from "react-icons/fa";
 import { TbTableShare } from "react-icons/tb";
 import { useState,useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+
+function useQuery() {
+    return new URLSearchParams(useLocation().search);
+}
 
 export default function SideBar() {
+    const query = useQuery();
+    const id = query.get('id');
+    const navigate = useNavigate();
+
     const [open,setOpen] = useState(window.innerWidth >= 800)
     const closeWindow = () => {
         setOpen(!open);
@@ -33,6 +43,10 @@ export default function SideBar() {
         };
     },[])
 
+    const redirect = (url) => {
+        navigate(url + '/?id=' + id);
+    }
+
     
 
     return (
@@ -43,19 +57,19 @@ export default function SideBar() {
                     {open && <div className="brand-name">ScoreYourDay</div>}
                 </div>
                 <div className="elements-sb">
-                    <div className="home-sb el">
+                    <div className="home-sb el" onClick={() => redirect('/home')}>
                         <TiHome color='white' size={35}/>
                         {open && <div className="home">Home</div>}
                     </div>
-                    <div className="utilities-sb el">
+                    <div className="utilities-sb el" onClick={() => redirect('/Utilities')}>
                         <FaWrench size={30} />
                         {open && <div className="utilities">Utilities</div>}
                     </div>
-                    <div className="charts-sb el">
+                    <div className="charts-sb el" onClick={() => redirect('/Charts')}>
                         <FaChartBar />
                         {open && <div className="charts">Charts</div>}
                     </div>
-                    <div className="tables-sb el">
+                    <div className="tables-sb el" onClick={() => redirect('/Table')}>
                         <TbTableShare />
                         {open && <div className="tables">Tables</div>}
                     </div>

@@ -9,6 +9,7 @@ import {v4 as uuid4} from 'uuid'
 import 'react-datepicker/dist/react-datepicker.css';
 import { useDispatch } from 'react-redux';
 import { setTasksRedux,fetchTasks } from "../taskSlice";
+import { TiPlus } from "react-icons/ti";
 
 function useQuery() {
 
@@ -26,6 +27,7 @@ export default function AddTask() {
   const [postObj,setPostObj] = useState({});
 
   useEffect(() => {
+    
     const newId = uuid4();
       setPostObj({
         "id": newId,
@@ -54,6 +56,8 @@ export default function AddTask() {
 
   async function saveChanges() {
     const newId = uuid4();
+    let newDate = new Date(taskDate)
+    setTaskDate(newDate.setDate(newDate.getDate() + 1))
     setPostObj({
       "id": newId,
       "taskName": taskName,
@@ -104,6 +108,7 @@ export default function AddTask() {
               placeholderText={currentDate}
               className='form-control'
               defaultValue={currentDate}
+              utcOffset={0}
             />
           </Form.Group>
         </Modal.Body>

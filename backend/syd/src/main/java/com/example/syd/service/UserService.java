@@ -35,4 +35,20 @@ public class UserService {
     public User getByIdExist(String id) {
         return userRepo.getById(id);
     }
+
+    public Float getDayCompletion(Float id) {
+        return userRepo.getDayCompletion(id);
+    }
+
+    public Float getWeekCompletion(Float id) {
+        return userRepo.getWeekCompletion(id);
+    }
+
+    public Float getMonthCompletion(Float id) {
+        return userRepo.getMonthCompletion(id);
+    }
+
+    public Float getYearCompletion(Float id) {
+        return userRepo.getYearCompletion(id);
+    }
 }

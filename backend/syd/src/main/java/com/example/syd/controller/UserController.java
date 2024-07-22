@@ -9,16 +9,33 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/users")
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @GetMapping("/getDayCompletion/{id}")
+    public Float getDay(@PathVariable Float id) {
+        return userService.getDayCompletion(id);
+    };
+
+    @GetMapping("/getWeekCompletion/{id}")
+    public Float getWeek(@PathVariable Float id) {
+        return userService.getWeekCompletion(id);
+    };
+
+    @GetMapping("/getMonthCompletion/{id}")
+    public Float getMonth(@PathVariable Float id) {
+        return userService.getMonthCompletion(id);
+    };
+
+    @GetMapping("/getYearCompletion/{id}")
+    public Float getYear(@PathVariable Float id) {
+        return userService.getYearCompletion(id);
+    };
 
 
     @PutMapping("/day")

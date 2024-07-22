@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import AddTask from "./AddTask";
 import { readTasks } from "../Crud";
 import Tasks from "./Tasks";
-import { getWeeks } from "./ArrangeDates";
+import { getWeeks,getDays } from "./ArrangeDates";
 import { useSelector, useDispatch } from "react-redux";
 import { setTasksRedux,fetchTasks } from "../taskSlice";
 import SideBar from "./SideBar";
@@ -15,22 +15,22 @@ function useQuery() {
 }
 
 export default function LandingPage() {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     
     const { value, status, error } = useSelector((state) => state.task);
 
 
     const query = useQuery();
     const id = query.get('id');
-
+    const [task,setTasks] = useState([])
     
-    const [taskWeek,setTaskWeek] = useState([])
     
     useEffect(() => {
         dispatch(fetchTasks(id));
+        setTasks()
       }, [id, dispatch]);
 
-   
+      
     
 
    
@@ -41,13 +41,8 @@ export default function LandingPage() {
                     <SideBar />
                 </div>
                 <div className="bodyContainer-LP">
-                    <div className="sidebar-LP">
-                        <AddTask />
-                    </div>
-                    <div className="body-LP">
-                        <div className="display-tasks">
-                            <Tasks tasks={value}/>
-                        </div>
+                    <div className="display-tasks">
+                        <Tasks tasks={value} />
                     </div>
                 </div>
             </div>

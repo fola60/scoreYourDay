@@ -8,6 +8,7 @@ export const fetchTasks = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const tasks = await readTasks(id);
+      console.log('Fetched from taskSlice')
       return tasks;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

@@ -32,5 +32,15 @@ public interface UserRepo extends JpaRepository<User,String> {
     @Query(value = "UPDATE user_table SET year_completion = :year_completion WHERE id = :id",nativeQuery = true)
     void updateYear(@Param("id") String id, @Param("year_completion") Float year_completion);
 
+    @Query(value = "SELECT day_completion FROM user_table where id = :id",nativeQuery = true)
+    public Float getDayCompletion(@Param("id") Float id);
 
+    @Query(value = "SELECT week_completion FROM user_table where id = :id",nativeQuery = true)
+    public Float getWeekCompletion(@Param("id") Float id);
+
+    @Query(value = "SELECT month_completion FROM user_table where id = :id",nativeQuery = true)
+    public Float getMonthCompletion(@Param("id") Float id);
+
+    @Query(value = "SELECT year_completion FROM user_table where id = :id",nativeQuery = true)
+    public Float getYearCompletion(@Param("id") Float id);
 }

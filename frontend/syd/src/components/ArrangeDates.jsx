@@ -1,58 +1,55 @@
-export const getWeeks = (dates) => {
-  const now = new Date();
-
-  // Get start and end of the current week
-  const startOfWeek = new Date(now);
-  startOfWeek.setDate(now.getDate() - now.getDay());
-
-  const endOfWeek = new Date(startOfWeek);
-  endOfWeek.setDate(startOfWeek.getDate() + 6);
-
-  let newDates = [];
-  for (let i = 0; i < dates.length; i++) {
-
-    let date = new Date(dates[i].taskDate); // Convert taskDate to Date object
-    if (date >= startOfWeek && date <= endOfWeek) {
-      newDates.push(dates[i]);
-    }
-    
-  }
-
-  let val = JSON.stringify(newDates, null, 2)
-  return val;
+function filterByDateRange(objects, startDate, endDate) {
+  return objects.filter(obj => {
+    const taskDate = new Date(obj.taskDate); // Convert taskDate to Date object
+    return taskDate >= startDate && taskDate <= endDate;
+  });
 }
 
-export const getMonths = (dates) => {
-  const now = new Date();
+// Specific functions for day, week, month, and year
+export function filterByDay(objects, targetDate) {
+  const startDate = new Date(targetDate);
+  startDate.setHours(0, 0, 0, 0);
 
-  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  const endDate = new Date(targetDate);
+  endDate.setHours(23, 59, 59, 999);
 
-  let newDates = [];
-  for (let i = 0; i < dates.length; i++) {
-    let date = new Date(dates[i].taskDate); // Convert taskDate to Date object
-    if (date >= startOfMonth && date <= endOfMonth) {
-      newDates.push(dates[i]);
-    }
-  }
-  let val = JSON.stringify(newDates, null, 2)
-  return val;
+  return filterByDateRange(objects, startDate, endDate);
 }
 
-export const getYears = (dates) => {
-  const now = new Date();
+export function filterByWeek(objects, targetDate) {
+  const startDate = new Date(targetDate);
+  const dayOfWeek = startDate.getDay();
+  startDate.setDate(startDate.getDate() - dayOfWeek);
+  startDate.setHours(0, 0, 0, 0);
 
-  const startOfYear = new Date(now.getFullYear(), 0, 1);
-  const endOfYear = new Date(now.getFullYear(), 11, 31);
+  const endDate = new Date(startDate);
+  endDate.setDate(startDate.getDate() + 6);
+  endDate.setHours(23, 59, 59, 999);
 
-  let newDates = [];
-  for (let i = 0; i < dates.length; i++) {
-    let date = new Date(dates[i].taskDate); // Convert taskDate to Date object
-    if (date >= startOfYear && date <= endOfYear) {
-      newDates.push(dates[i]);
-    }
-  }
+  return filterByDateRange(objects, startDate, endDate);
+}
 
-  let val = JSON.stringify(newDates, null, 2)
-  return val;
+export function filterByMonth(objects, targetDate) {
+  const startDate = new Date(targetDate);
+  startDate.setDate(1);
+  startDate.setHours(0, 0, 0, 0);
+
+  const endDate = new Date(startDate);
+  endDate.setMonth(startDate.getMonth() + 1);
+  endDate.setDate(0);
+  endDate.setHours(23, 59, 59, 999);
+
+  return filterByDateRange(objects, startDate, endDate);
+}
+
+export function filterByYear(objects, targetDate) {
+  const startDate = new Date(targetDate);
+  startDate.setMonth(0, 1);
+  startDate.setHours(0, 0, 0, 0);
+
+  const endDate = new Date(targetDate);
+  endDate.setMonth(11, 31);
+  endDate.setHours(23, 59, 59, 999);
+
+  return filterByDateRange(objects, startDate, endDate);
 }

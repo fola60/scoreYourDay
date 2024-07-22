@@ -67,7 +67,7 @@ export default function UpdateTask({ prevTaskName, prevTaskDate , prevTaskDes, t
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <Button variant="primary" onClick={handleShow} >
         Update Task
       </Button>
 
