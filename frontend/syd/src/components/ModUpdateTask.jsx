@@ -16,7 +16,7 @@ function useQuery() {
 
 }
 
-export default function UpdateTask({ prevTaskName, prevTaskDate , prevTaskDes, taskId}) {
+export default function ModUpdateTask({children, prevTaskName, prevTaskDate , prevTaskDes, taskId}) {
   const dispatch = useDispatch();
   const query = useQuery();
   const id = query.get('id');
@@ -68,9 +68,9 @@ export default function UpdateTask({ prevTaskName, prevTaskDate , prevTaskDes, t
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow} >
-        Update Task
-      </Button>
+      <div onClick={handleShow}>
+        {children}
+      </div>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -82,9 +82,8 @@ export default function UpdateTask({ prevTaskName, prevTaskDate , prevTaskDes, t
               <Form.Label>Task Name</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="groceries..."
+                placeholder={prevTaskName}
                 onChange={(e) => setTaskName(e.target.value)}
-                defaultValue={prevTaskName}
                 autoFocus
               />
             </Form.Group>
@@ -93,7 +92,7 @@ export default function UpdateTask({ prevTaskName, prevTaskDate , prevTaskDes, t
               controlId="exampleForm.ControlTextarea1"
             >
               <Form.Label>Task Description</Form.Label>
-              <Form.Control as="textarea" rows={3} placeholder='Grab milk and ...' onChange={(e) => setTaskDes(e.target.value)} defaultValue={prevTaskDes}/>
+              <Form.Control as="textarea" rows={3} placeholder={prevTaskDes} onChange={(e) => setTaskDes(e.target.value)} />
             </Form.Group>
           </Form>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -101,9 +100,9 @@ export default function UpdateTask({ prevTaskName, prevTaskDate , prevTaskDes, t
             <DatePicker
               selected={taskDate}
               onChange={(date) => setTaskDate(date)}
-              placeholderText='9/25/2024'
+              placeholderText={prevTaskDate}
               className='form-control'
-              defaultValue={prevTaskDate}
+              
             />
           </Form.Group>
         </Modal.Body>

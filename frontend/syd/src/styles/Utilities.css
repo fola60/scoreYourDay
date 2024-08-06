@@ -3,4 +3,138 @@
     height: 100vh;
     display: flex;
     flex-direction: row;
+    
 }
+
+.bodyContainer-ut {
+    display: flex;
+    flex-direction: column;
+    padding:1rem;
+    overflow-y: scroll;
+    overflow-x: scroll;
+}
+
+.bodyContainer-ut::-webkit-scrollbar {
+    display: none;
+}
+
+.header-ut {
+    padding:1rem;
+    display: flex;
+    flex-direction: row;
+    gap:1rem;
+    height:fit-content;
+}
+
+.body-ut {
+    padding:1rem;
+}
+
+.num {
+    display: flex;
+    flex-direction: row;
+    gap:1rem;
+    padding:1rem;
+    align-items: end;
+}
+
+.text {
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1.5rem;
+}
+
+.today {
+    color: aqua;
+    font-size: 3rem;
+}
+
+.week {
+    color:blueviolet;
+    font-size: 3rem;
+}
+
+.month {
+    color:red;
+    font-size: 3rem;
+}
+
+.year {
+    color:green;
+    font-size: 3rem;
+}
+
+
+@media (max-width: 900px) {
+    
+    .text {
+        font-family: "Bebas Neue", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 1.0rem;
+    }
+    
+    .today {
+        color: aqua;
+        font-size: 1rem;
+    }
+    
+    .week {
+        color:blueviolet;
+        font-size: 1rem;
+    }
+    
+    .month {
+        color:red;
+        font-size: 1rem;
+    }
+    
+    .year {
+        color:green;
+        font-size: 1rem;
+    }
+    .goal {
+        font-size: 1.3rem;
+        padding:0.7rem;
+    }
+}
+
+.update-btn {
+    padding:0.7rem;
+    border-radius: 0.3rem;
+    background-color: rgb(255, 165, 0,0.5); ;
+}
+
+.delete-btn {
+    padding:0.7rem;
+    border-radius: 0.3rem;
+    background-color: rgb(255, 55, 0,0.5);
+}
+
+.targetCl-container {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    width:20%;
+    padding: 1rem;
+}
+
+.header-cl {
+    padding: 1rem;
+}
+
+.body-cl {
+    padding: 1rem;
+}
+
+.goal {
+    display: flex;
+    flex-direction: row;
+    font-size: 2rem;
+    padding:1rem;
+    font-family: "Anton", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+

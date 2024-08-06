@@ -14,11 +14,9 @@ public interface UserRepo extends JpaRepository<User,String> {
     @Query(value = "SELECT * FROM user_table where id = :id", nativeQuery = true)
     public Optional<User> getUserById(String id);
 
-    @Query(value = "SELECT * FROM user_table where id = :id", nativeQuery = true)
-    public User getById(String id);
 
     @Query(value = "DELETE FROM user_table WHERE id = :id", nativeQuery = true)
-    public void deleteUser(Long id);
+    public void deleteUser(String id);
 
     @Query(value = "UPDATE user_table SET day_completion = :day_completion WHERE id = :id",nativeQuery = true)
     void updateDay(@Param("id") String id, @Param("day_completion") Float day_completion);
@@ -33,14 +31,14 @@ public interface UserRepo extends JpaRepository<User,String> {
     void updateYear(@Param("id") String id, @Param("year_completion") Float year_completion);
 
     @Query(value = "SELECT day_completion FROM user_table where id = :id",nativeQuery = true)
-    public Float getDayCompletion(@Param("id") Float id);
+    public Integer getDayCompletion(@Param("id") String id);
 
     @Query(value = "SELECT week_completion FROM user_table where id = :id",nativeQuery = true)
-    public Float getWeekCompletion(@Param("id") Float id);
+    public Integer getWeekCompletion(@Param("id") String id);
 
     @Query(value = "SELECT month_completion FROM user_table where id = :id",nativeQuery = true)
-    public Float getMonthCompletion(@Param("id") Float id);
+    public Integer getMonthCompletion(@Param("id") String id);
 
     @Query(value = "SELECT year_completion FROM user_table where id = :id",nativeQuery = true)
-    public Float getYearCompletion(@Param("id") Float id);
+    public Integer getYearCompletion(@Param("id") String id);
 }

@@ -65,9 +65,9 @@ export default function SideBar() {
                         <FaWrench size={30} />
                         {open && <div className="utilities">Utilities</div>}
                     </div>
-                    <div className="charts-sb el" onClick={() => redirect('/Charts')}>
+                    <div className="charts-sb el" onClick={() => redirect('/Analytics')}>
                         <FaChartBar />
-                        {open && <div className="charts">Charts</div>}
+                        {open && <div className="charts">Analytics</div>}
                     </div>
                     <div className="tables-sb el" onClick={() => redirect('/Table')}>
                         <TbTableShare />

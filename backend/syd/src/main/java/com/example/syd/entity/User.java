@@ -24,16 +24,16 @@ public class User {
     private LocalDate timeAdded;
 
     @Column(name = "day_completion")
-    private Float dayCompletion;
+    private Integer dayCompletion;
 
     @Column(name = "month_completion")
-    private Float monthCompletion;
+    private Integer monthCompletion;
 
     @Column(name = "year_completion")
-    private Float yearCompletion;
+    private Integer yearCompletion;
 
     @Column(name = "week_completion")
-    private Float weekCompletion;
+    private Integer weekCompletion ;
 
 
     public String getId() {
@@ -68,35 +68,35 @@ public class User {
         this.timeAdded = timeAdded;
     }
 
-    public float getWeekCompletion() {
+    public Integer getWeekCompletion() {
         return weekCompletion;
     }
 
-    public void setWeekCompletion(Float weekCompletion) {
+    public void setWeekCompletion(Integer weekCompletion) {
         this.weekCompletion = weekCompletion;
     }
 
-    public Float getYearCompletion() {
+    public Integer getYearCompletion() {
         return yearCompletion;
     }
 
-    public void setYearCompletion(Float yearCompletion) {
+    public void setYearCompletion(Integer yearCompletion) {
         this.yearCompletion = yearCompletion;
     }
 
-    public Float getMonthCompletion() {
+    public Integer getMonthCompletion() {
         return monthCompletion;
     }
 
-    public void setMonthCompletion(Float monthCompletion) {
+    public void setMonthCompletion(Integer monthCompletion) {
         this.monthCompletion = monthCompletion;
     }
 
-    public Float getDayCompletion() {
+    public Integer getDayCompletion() {
         return dayCompletion;
     }
 
-    public void setDayCompletion(Float dayCompletion) {
+    public void setDayCompletion(Integer dayCompletion) {
         this.dayCompletion = dayCompletion;
     }
 }

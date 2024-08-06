@@ -28,7 +28,7 @@ public class UserService {
         return userRepo.findById(id);
     }
 
-    public void deleteUser(Long id) {
+    public void deleteUser(String id) {
         userRepo.deleteUser(id);
     }
 
@@ -36,19 +36,19 @@ public class UserService {
         return userRepo.getById(id);
     }
 
-    public Float getDayCompletion(Float id) {
+    public Integer getDayCompletion(String id) {
         return userRepo.getDayCompletion(id);
     }
 
-    public Float getWeekCompletion(Float id) {
+    public Integer getWeekCompletion(String id) {
         return userRepo.getWeekCompletion(id);
     }
 
-    public Float getMonthCompletion(Float id) {
+    public Integer getMonthCompletion(String id) {
         return userRepo.getMonthCompletion(id);
     }
 
-    public Float getYearCompletion(Float id) {
+    public Integer getYearCompletion(String id) {
         return userRepo.getYearCompletion(id);
     }
 }

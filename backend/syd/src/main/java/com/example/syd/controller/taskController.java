@@ -34,6 +34,11 @@ public class taskController {
         taskService.updateTask(task);
     }
 
+    @GetMapping("/getTaskById/{id}")
+    public List<Task> getTaskById(@PathVariable String id) {
+        return taskService.getTaskById(id);
+    }
+
     @PostMapping
     public ResponseEntity<Void> save(@Validated @RequestBody Task task) {
         taskService.saveTask(task);

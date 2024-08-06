@@ -26,7 +26,6 @@ public class TaskService {
     }
 
     public void saveTask(Task task) {
-        task.setTimeAdded(LocalDate.now());
         task.setUser_id(oAuth2LoginSuccessHandler.getGoogleId());
         taskRepo.save(task);
     }
@@ -38,5 +37,9 @@ public class TaskService {
     public void updateTask(Task task) {
         deleteTask(task.getId());
         saveTask(task);
+    }
+
+    public List<Task> getTaskById(String id) {
+        return taskRepo.getTaskById(id);
     }
 }
