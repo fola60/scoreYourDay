@@ -26,7 +26,7 @@ const taskSlice = createSlice({
   },
   reducers: {
     setTasksRedux: (state,action) => {
-        state.value = action.payload
+        state.value = action.payload;
     }
   },
   extraReducers: (builder) => {

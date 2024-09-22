@@ -25,13 +25,22 @@ export default function Tasks({ tasks }) {
     const TASKS = tasks;
     const today = new Date();
     const [displayed,setDisplayed] = useState(() => filterByWeek(tasks,today));
+    const [expandInfo,setExpandInfo] = useState(false);
+    const [currentDiv,setCurrentDiv] = useState(null);
     
-    const [prevCompletions,setPrevCompletions] = useState(displayed.map(task => task.taskCompletion ?? 0))
+    const [prevCompletions,setPrevCompletions] = useState(displayed.map(task => task.taskCompletion ?? 0));
     const [completions, setCompletions] = useState(displayed.map(task => task.taskCompletion ?? 0));
+
+    const [displayDays,setDisplayDays] = useState(false);
+    const [displayWeeks,setDisplayWeeks] = useState(false);
+    const [displayMonths,setDisplayMonths] = useState(false);
+    const [displayYears,setDisplayYears] = useState(false);
+    
 
     useEffect(() => {
         setPrevCompletions(displayed.map(task => task.taskCompletion ?? 0))
         setCompletions(displayed.map(task => task.taskCompletion ?? 0));
+        
     }, [TASKS,displayed]);
 
     const [version,setVersion] = useState('All Tasks')
@@ -96,25 +105,68 @@ export default function Tasks({ tasks }) {
         }, 500),
           []
       );
-      useEffect(() => {
-        setDisplayed(TASKS);
 
+      const changeDisplayedTasks = () => {
+        if(displayDays) {
+          displayDay();
+        } else if(displayWeeks) {
+          displayWeek();
+        } else if(displayMonths) {
+          displayMonth();
+        } else if(displayYears) {
+          displayYear();
+        } else {
+          displayAll();
+        }
+      }
+
+      useEffect(() => {
+        changeDisplayedTasks();
+      },[displayDays,displayWeeks,displayMonths,displayYears]);
+
+      useEffect(() => {
+        changeDisplayedTasks();
       },[TASKS])
 
-    
+
 
     return (
         <>
             <div className="task-container">
                 <DropdownButton id="dropdown-basic-button" title={version}>
-                    <Dropdown.Item href="#/action-5" eventKey="5" onClick={() => displayAll()}>All Tasks</Dropdown.Item>
-                    <Dropdown.Item href="#/action-1" eventKey="1" onClick={() => displayDay()}>Today</Dropdown.Item>
-                    <Dropdown.Item href="#/action-2" eventKey="2" onClick={() => displayWeek()}>This week</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3" eventKey="3" onClick={() => displayMonth()}>This Month</Dropdown.Item>
-                    <Dropdown.Item href="#/action-4" eventKey="1" onClick={() => displayYear()}>This Year</Dropdown.Item>
+                    <Dropdown.Item href="#/action-5" eventKey="5" onClick={() => {
+                      setDisplayDays(false);
+                      setDisplayWeeks(false);
+                      setDisplayMonths(false);
+                      setDisplayYears(false);
+                      }}>All Tasks</Dropdown.Item>
+                    <Dropdown.Item href="#/action-1" eventKey="1" onClick={() => {
+                      setDisplayDays(true);
+                      setDisplayWeeks(false);
+                      setDisplayMonths(false);
+                      setDisplayYears(false);
+                      }}>Today</Dropdown.Item>
+                    <Dropdown.Item href="#/action-2" eventKey="2" onClick={() => {
+                      setDisplayDays(false);
+                      setDisplayWeeks(true);
+                      setDisplayMonths(false);
+                      setDisplayYears(false);
+                      }}>This week</Dropdown.Item>
+                    <Dropdown.Item href="#/action-3" eventKey="3" onClick={() => {
+                      setDisplayDays(false);
+                      setDisplayWeeks(false);
+                      setDisplayMonths(true);
+                      setDisplayYears(false);
+                      }}>This Month</Dropdown.Item>
+                    <Dropdown.Item href="#/action-4" eventKey="1" onClick={() => {
+                      setDisplayDays(false);
+                      setDisplayWeeks(false);
+                      setDisplayMonths(false);
+                      setDisplayYears(true);
+                      }}>This Year</Dropdown.Item>
                 </DropdownButton>
                 {displayed.map((task,index) => (
-                    <div className="task" key={task.id}>
+                    <div className="task" key={task.id} onMouseEnter={() => {setExpandInfo(true); setCurrentDiv(index)}} onMouseLeave={() => setExpandInfo(false)}>
                         <div className="top">
                             <div className="name">{task.taskName}</div>
                             <div className="completion">
@@ -150,11 +202,19 @@ export default function Tasks({ tasks }) {
                                 />
                             </div>
                             <CloseButton onClick={() => {deleteTaskById(task.id)}}/>
-                            <UpdateTask prevTaskDate={task.taskDate} prevTaskName={task.taskName} prevTaskDes={task.taskDescription} taskId={task.id} />
                         </div>
-                        <div className="bottom">
+                        {(expandInfo == false) && (
+                          <div className="bottom">
+                            <div className="description"> more info...</div>
+                          </div>
+                        )}
+                        {(expandInfo && currentDiv == index) && (
+                          <div className="bottom">
                             <div className="description">{task.taskDescription}</div>
-                        </div>
+                            <div className="task-date">Task Due: {task.taskDate}</div>
+                            <div className="task-completion">Task Completion: {completions[index]}</div>
+                          </div>
+                        )}
                     </div>
                 ))}
             </div>

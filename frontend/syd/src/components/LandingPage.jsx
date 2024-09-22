@@ -10,6 +10,8 @@ import { setTasksRedux,fetchTasks } from "../taskSlice";
 import SideBar from "./SideBar";
 import { filterByDay,filterByMonth,filterByWeek,filterByYear,convertNum } from "./ArrangeDates";
 import AwesomeSlider from 'react-awesome-slider'
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
 
 function useQuery() {
@@ -34,6 +36,8 @@ export default function LandingPage() {
     const [showWeek,setShowWeek] = useState(false);
     const [showMonth,setShowMonth] = useState(false);
     const [showYear,setShowYear] = useState(false);
+
+    const [type,setType] = useState(2);
 
     
     
@@ -78,12 +82,11 @@ export default function LandingPage() {
         setMonthGoal(monthTotal / monthTasks.length);
         setYearGoal(yearTotal / yearTasks.length);
 
-        
     },[value]);
 
     useEffect(() => {
-        console.log(monthGoal + 'month goal')
-    },[monthGoal])
+        console.log(monthGoal + 'month goal');
+    },[monthGoal]);
 
     const slideWindowForward = () => {
         if(showDay) {
@@ -142,14 +145,19 @@ export default function LandingPage() {
                         <div className="display-score">
                             <div className="btn-score" onClick={slideWindowBack}>{'<'}</div>
                             <div className="score-number">
-                                {showMonth && convertNum(monthGoal,1)}
-                                {showYear && convertNum(yearGoal,1)}
-                                {showDay && convertNum(dayGoal,1)}
-                                {showWeek && convertNum(weekGoal,1)}
+                                {showMonth && convertNum(monthGoal,type)}
+                                {showYear && convertNum(yearGoal,type)}
+                                {showDay && convertNum(dayGoal,type)}
+                                {showWeek && convertNum(weekGoal,type)}
                             </div> 
                             <div className="btn-score" onClick={slideWindowForward}>{'>'}</div>
                         </div>
                     </div>
+                    <DropdownButton id="dropdown-basic-button" title={'Score Type'}>
+                        <Dropdown.Item href="#/action-1" eventKey="1" onClick={() => setType(2)}>Percentage%</Dropdown.Item>
+                        <Dropdown.Item href="#/action-2" eventKey="2" onClick={() => setType(3)}>Irish</Dropdown.Item>
+                        <Dropdown.Item href="#/action-3" eventKey="3" onClick={() => setType(1)}>American</Dropdown.Item>
+                    </DropdownButton>
                     <div className="display-tasks">
                         <Tasks tasks={value} />
                     </div>

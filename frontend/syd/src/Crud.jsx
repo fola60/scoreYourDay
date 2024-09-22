@@ -391,6 +391,61 @@ export async function dayCompletion(id) {
     return dayMapping;
 }
 
+export async function monthCompletion(id) {
+    const taskData = await getTaskData(id);
+    const tasks = await readTasks(id);
+
+    let monthMapping = {
+        0:0,
+        1:0,
+        2:0,
+        3:0,
+        4:0,
+        5:0,
+        6:0,
+        7:0,
+        8:0,
+        9:0,
+        10:0,
+        11:0,
+        12:0
+    }
+    let monthMappingLength = {
+        0:0,
+        1:0,
+        2:0,
+        3:0,
+        4:0,
+        5:0,
+        6:0,
+        7:0,
+        8:0,
+        9:0,
+        10:0,
+        11:0,
+        12:0
+    }
+
+    let visitedIds = new Set();
+
+    taskData.map(task => {
+        
+        monthMapping[new Date(task.timeAdded).getMonth()] += task.compDiff;
+        if( visitedIds.has(task.taskId)  ) {
+            
+        } else {
+            monthMappingLength[new Date(task.timeAdded).getMonth()] += 1;
+            console.log('Id duplicate not found');
+        }
+        visitedIds.add(task.taskId);
+    });
+    for(let i = 0;i < 12;i++) {
+        monthMapping[i] = monthMapping[i] / monthMappingLength[i] ;  
+    }
+    console.log('monthMapping: ' + JSON.stringify(monthMapping));
+    return monthMapping;
+}
+
 export async function postTaskData(taskData) {
     const requestOptions = {
         method: 'POST',
@@ -445,3 +500,238 @@ export async function deleteTaskData(id) {
     }
 
 } 
+
+function checkBetween(start,end,date) {
+    return (date >= start && date <= end);
+}
+
+function getEndOfMonthDate(year, month) {
+    return new Date(year, month + 1, 0);
+}
+
+function isSameDay(date1, date2) {
+    return date1.getFullYear() === date2.getFullYear() &&
+           date1.getMonth() === date2.getMonth() &&
+           date1.getDate() === date2.getDate();
+}
+
+function getWeekNumber(date) {
+    const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+    const pastDaysOfYear = (date - firstDayOfYear + 86400000) / 86400000;
+    return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+}
+
+function isSameWeek(date1, date2) {
+    return date1.getFullYear() === date2.getFullYear() &&
+           getWeekNumber(date1) === getWeekNumber(date2);
+}
+
+function isSameMonth(date1, date2) {
+    return date1.getFullYear() === date2.getFullYear() &&
+           date1.getMonth() === date2.getMonth() 
+}
+
+function tasksADay(date,taskDatas) {
+    let taskData = taskDatas;
+    let day = new Date(date);
+    let taskSet = new Set();
+    let numTaskADay = 0;
+    let ids = new Set();
+
+    for (let i = 0; i < taskData.length; i++){
+        let taskDate = new Date(taskData[i].timeAdded);
+        let taskId = taskData[i].taskId;
+        ids.add(taskId);
+        if (isSameDay(taskDate,day)){
+            if (taskSet.has(taskId)) {
+
+            } else {
+                numTaskADay += 1;
+                taskSet.add(taskId)
+            }
+        }
+    }
+
+    return [numTaskADay,ids];
+}
+
+function tasksAWeek(date,taskDatas) {
+    let taskData = taskDatas;
+    let week = new Date(date);
+    let taskSet = new Set();
+    let numTaskAWeek = 0;
+    let ids = new Set();
+
+    for (let i = 0; i < taskData.length; i++){
+        let taskDate = new Date(taskData[i].timeAdded);
+        let taskId = taskData[i].taskId;
+        ids.add(taskId);
+        if (isSameWeek(taskDate,week)){
+            if (taskSet.has(taskId)) {
+
+            } else {
+                numTaskAWeek += 1;
+                taskSet.add(taskId)
+            }
+        }
+    }
+
+    return [numTaskAWeek,ids];
+}
+
+function tasksAMonth(date,taskDatas) {
+    let taskData = taskDatas;
+    let month = new Date(date);
+    let taskSet = new Set();
+    let numTaskAMonth = 0;
+
+    for (let i = 0; i < taskData.length; i++){
+        let taskDate = new Date(taskData[i].timeAdded);
+        let taskId = taskData[i].taskId;
+        if (isSameMonth(taskDate,month)){
+            if (taskSet.has(taskId)) {
+
+            } else {
+                numTaskAMonth += 1;
+                taskSet.add(taskId)
+            }
+        }
+    }
+
+
+    return numTaskAMonth;
+}
+
+function getStartOfWeek(date) {
+    const result = new Date(date);
+    const day = result.getDay(); 
+    const diff = result.getDate() - day + (day === 0 ? -6 : 1); // Adjust when day is Sunday
+    result.setDate(diff);
+    result.setHours(0, 0, 0, 0); 
+    return result;
+}
+
+function getStartOfMonth(date) {
+    const result = new Date(date);
+    result.setDate(1);          
+    result.setHours(0, 0, 0, 0); 
+    return result;
+}
+
+
+export default async function getAverageCompDate(id) {
+    let tasks = await getTaskData(id);
+    if (tasks.length <= 0) {
+        return [0,0,0];
+    }
+    let oldestDate = new Date();
+    console.log(tasks[0].timeAdded + ': time added')
+    let newestDate = new Date(tasks[0].timeAdded);
+    
+    for (let i = 0;i < tasks.length;i++) {
+        let curDate = new Date(tasks[i].timeAdded)
+        if (curDate < oldestDate) {
+            oldestDate = curDate;
+        }
+        if (curDate > newestDate) {
+            newestDate = curDate;
+        }
+    }
+
+    let startDay = oldestDate;
+
+    let startOfWeek = new Date(startDay);
+    startOfWeek.setHours(0,0,0,0);
+    let startOfMonth = startDay;
+    
+
+    let endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + (6 - startOfWeek.getDay()))
+    endOfWeek.setHours(23, 59, 59, 999);
+    let endOfMonth = getEndOfMonthDate(2024,startOfWeek.getMonth());
+
+
+    let days = new Set();
+    let weeks = new Set();
+    let months = new Set();
+
+    let dayMap = new Map();
+    let weekMap = new Map();
+    let monthMap = new Map();
+
+    let totalADay = 0;
+    let totalAWeek = 0;
+    let totalAMonth = 0;
+
+   
+    for (let i = 0; i < tasks.length; i++) {
+        let taskDate = new Date(tasks[i].timeAdded);
+        taskDate.setHours(0,0,0,0)
+        taskDate = taskDate.toLocaleDateString();
+        let completion = tasks[i].compDiff;
+        
+        
+        if (dayMap.has(taskDate)) {
+            dayMap.set(taskDate,dayMap.get(taskDate) + completion);
+            console.log('Has this date: ' + new Date(taskDate));
+        } else {
+            dayMap.set(taskDate,completion)
+        }
+        
+    }
+    
+    for (let [key,value] of dayMap) {
+        let newKey = new Date(key);
+        console.log('new Key: ' + newKey);
+        let numTasks = tasksADay(newKey,tasks)[0];
+        for (let id of tasksADay(newKey,tasks)[1]) {
+            days.add(id);
+        }
+        console.log('key: ' + key + '   numTasks a day: ' + numTasks + '  value: ' + value);
+        totalADay += value;
+    }
+    totalADay = totalADay / days.size;
+
+    for (let i = 0; i < tasks.length; i++) {
+        let taskDate = getStartOfWeek(new Date(tasks[i].timeAdded));
+        taskDate = taskDate.toLocaleDateString();
+        let completion = tasks[i].compDiff;
+        
+        if (weekMap.has(taskDate)) {
+            weekMap.set(taskDate,weekMap.get(taskDate) + completion);
+        } else {
+            weekMap.set(taskDate,completion)
+        }
+        
+    }
+
+    for (let [key,value] of weekMap) {
+        let numTasks = tasksAWeek(key,tasks)[0];
+        const newKey = new Date(key);
+        for (let id of tasksAWeek(newKey,tasks)[1]) {
+            weeks.add(id);
+        }
+        totalAWeek += value;
+    }
+    totalAWeek = totalAWeek / weeks.size;
+
+    for (let i = 0; i < tasks.length; i++) {
+        let taskDate = getStartOfMonth(new Date(tasks[i].timeAdded));
+        let completion = tasks[i].compDiff;
+        
+        if (monthMap.has(taskDate)) {
+            monthMap.set(taskDate,monthMap.get(taskDate) + completion);
+        } else {
+            monthMap.set(taskDate,completion)
+        }
+        
+    }
+
+    for (let [key,value] of monthMap) {
+        let numTasks = tasksAMonth(key,tasks);
+        totalAMonth += (value / numTasks);
+    }
+
+    return [totalADay,totalAWeek,totalAMonth]
+
+}

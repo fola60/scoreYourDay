@@ -1,11 +1,27 @@
 function filterByDateRange(objects, startDate, endDate) {
   return objects.filter(obj => {
-    const taskDate = new Date(obj.taskDate); // Convert taskDate to Date object
-    return taskDate >= startDate && taskDate <= endDate;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const taskDate = new Date(obj.taskDate); 
+    return taskDate >= startDate && taskDate <= endDate && taskDate >= today;
   });
 }
 
-// Specific functions for day, week, month, and year
+
+
+function filterByOverRange(objects) {
+  return objects.filter(obj => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const taskDate = new Date(obj.taskDate); 
+    return taskDate < today;
+  });
+}
+
+export function filterByOverDue(objects) {
+  return filterByOverRange(objects);
+}
+
 export function filterByDay(objects, targetDate) {
   console.log('targetDate' + targetDate);
   const startDate = new Date(targetDate);
@@ -113,10 +129,10 @@ export function convertNum(num,type) {
       return "F"
     }
   } else if (type == 2) {
-    if (num != undefined) {
-      return `${num}%`;
-    } else {
+    if (isNaN(num)) {
       return "0%"
+    } else {
+      return `${parseInt(num)}%`;
     }
     
   } else if (type == 3) {

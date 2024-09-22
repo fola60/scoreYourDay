@@ -28,6 +28,7 @@ export default function AddTask() {
   const [taskDate,setTaskDate] = useState("");
   const [taskDes,setTaskDes] = useState(""); //task description
   const [postObj,setPostObj] = useState({});
+  const [valid,setValid] = useState(false);
 
   const [applyDay,setApplyDay] = useState(true);
   const [applyWeek,setApplyWeek] = useState(false);
@@ -59,54 +60,66 @@ export default function AddTask() {
   const currentDate = new Date();
 
  
-
+  const checkValid = () => {
+    console.log('task name: ' + taskName);
+    const taskname = taskName;
+    if (taskname.length > 0) {
+      setValid(true);
+    } else {
+      setValid(false);
+    }
+  }
   
 
   async function saveChanges() {
+    if (valid) {
+      let range = 0;
+      if (applyDay) {
+        range = 1;
+      } else if (applyWeek) {
+        range = daysLeftInWeek() + 1;
+      } else if (applyMonth) {
+        range = daysLeftInMonth();
+      } else if(applyYear) {
+        range = daysLeftInYear();
+      }
+      
+      
+      let currentDate = (taskDate == "") ? new Date() : new Date(taskDate)
+      let tasksToCreate = [];
+      let today = new Date();
+      
 
-    let range = 0;
-    if (applyDay) {
-      range = 1;
-    } else if (applyWeek) {
-      range = daysLeftInWeek() + 1;
-    } else if (applyMonth) {
-      range = daysLeftInMonth();
-    } else if(applyYear) {
-      range = daysLeftInYear();
+      for(let i = 1;i < range + 1; i++) {
+          const newId = uuid4();
+          console.log('get date: ' + currentDate.getDate() + 'new id: ' + newId);
+          let newTaskDate = new Date(currentDate);
+          newTaskDate.setDate(currentDate.getDate() + i);
+
+          let newDate = new Date(today); 
+          newDate.setDate(newDate.getDate() + i - 1);
+          let timeAdded = new Date(newDate);
+          const objToPush = {
+            "id": newId,
+            "taskName": `${taskName} ${i}`,
+            "taskDescription": taskDes,
+            "taskDate": newTaskDate,
+            "timeAdded": timeAdded,
+          }
+          tasksToCreate.push(objToPush);
+      }
+
+      for(let i = 0; i < tasksToCreate.length;i++) {
+        console.log('task' + tasksToCreate[i]);
+        await createTask(tasksToCreate[i]);
+      }
+      let result = await readTasks(id);
+      dispatch(setTasksRedux(result));
+      handleClose();
+    } else {
+      //some functionaltiy
+      console.log('invalid');
     }
-
-    let currentDate = new Date(taskDate);
-    let tasksToCreate = [];
-    let today = new Date();
-    
-
-    for(let i = 1;i < range + 1; i++) {
-        const newId = uuid4();
-        console.log('get date: ' + currentDate.getDate() + 'new id: ' + newId);
-        let newTaskDate = new Date(currentDate);
-        newTaskDate.setDate(currentDate.getDate() + i);
-
-        let newDate = new Date(today); 
-        newDate.setDate(newDate.getDate() + i - 1);
-        let timeAdded = new Date(newDate);
-        const objToPush = {
-          "id": newId,
-          "taskName": `${taskName} ${i}`,
-          "taskDescription": taskDes,
-          "taskDate": newTaskDate,
-          "timeAdded": timeAdded,
-        }
-        tasksToCreate.push(objToPush);
-    }
-
-    for(let i = 0; i < tasksToCreate.length;i++) {
-      console.log('task' + tasksToCreate[i]);
-      await createTask(tasksToCreate[i]);
-    }
-    let result = await readTasks(id);
-    dispatch(setTasksRedux(result));
-    handleClose();
-    
   }
 
   return (
@@ -126,7 +139,7 @@ export default function AddTask() {
               <Form.Control
                 type="text"
                 placeholder="groceries..."
-                onChange={(e) => setTaskName(e.target.value)}
+                onChange={(e) => {setTaskName(e.target.value); checkValid();}}
                 autoFocus
               />
             </Form.Group>
@@ -135,14 +148,14 @@ export default function AddTask() {
               controlId="exampleForm.ControlTextarea1"
             >
               <Form.Label>Task Description</Form.Label>
-              <Form.Control as="textarea" rows={3} placeholder='Grab milk and ...' onChange={(e) => setTaskDes(e.target.value)}/>
+              <Form.Control as="textarea" rows={3} placeholder='Grab milk and ...' onChange={(e) => {setTaskDes(e.target.value); checkValid();}}/>
             </Form.Group>
           </Form>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>Task End Date: </Form.Label>
             <DatePicker
               selected={taskDate}
-              onChange={(date) => setTaskDate(date)}
+              onChange={(date) => {setTaskDate(date); checkValid();}}
               placeholderText={currentDate}
               className='form-control'
               defaultValue={currentDate}
@@ -161,6 +174,7 @@ export default function AddTask() {
                       setApplyWeek(false);
                       setApplyMonth(false);
                       setApplyYear(false);
+                      
                     }}
                 />
                 <Form.Check
@@ -174,6 +188,7 @@ export default function AddTask() {
                       setApplyWeek(true);
                       setApplyMonth(false);
                       setApplyYear(false);
+                      
                     }}
                 />
                 <Form.Check
@@ -187,6 +202,7 @@ export default function AddTask() {
                       setApplyWeek(false);
                       setApplyMonth(true);
                       setApplyYear(false);
+                      
                     }}
                 />
                 <Form.Check
@@ -200,6 +216,7 @@ export default function AddTask() {
                       setApplyWeek(false);
                       setApplyMonth(false);
                       setApplyYear(true);
+                      
                     }}
                 />
           </Form>

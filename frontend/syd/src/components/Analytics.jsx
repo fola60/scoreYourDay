@@ -1,4 +1,4 @@
-import { getAverageCompletion ,dayCompletion,SEREVR_URL} from '../Crud';
+import getAverageCompDate, { getAverageCompletion ,dayCompletion,SEREVR_URL, monthCompletion,getUser} from '../Crud';
 import '../styles/Analytics.css'
 import SideBar from './SideBar'
 import { useEffect, useState } from 'react'
@@ -31,7 +31,7 @@ function useQuery() {
     return new URLSearchParams(useLocation().search);
   
   }
-
+//timeAdded
 export default function Analytics() {
 
     const query = useQuery();
@@ -55,12 +55,20 @@ export default function Analytics() {
     const [avMonth,setAvMonth] = useState(0);
     const [avYear,setAvYear] = useState(0);
 
+    const [avComp,setAvComp] = useState([]);
+
     const [dayGoal,setDayGoal] = useState(0);
     const [weekGoal,setWeekGoal] = useState(0);
     const [monthGoal,setMonthGoal] = useState(0);
     const [yearGoal,setYearGoal] = useState(0);
 
+    const [maxDayGoal,setMaxDayGoal] = useState(100);
+    const [maxWeekGoal,setMaxWeekGoal] = useState(100);
+    const [maxMonthGoal,setMaxMonthGoal] = useState(100);
+    const [maxYearGoal,setMaxYearGoal] = useState(100);
+
     const [dayMapping,setDayMapping] = useState({})
+    
 
     const [data,setData] = useState({
         labels: ['Mon','Tue','Wed','Thurs','Fri','Sat','Sun'],
@@ -90,6 +98,45 @@ export default function Analytics() {
             }
         ]
     });
+
+    const [data2,setData2] = useState({
+        labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+        datasets: [
+            {
+                label:'Average Task Completion By Month',
+                data:[1,1,1,1,1,1,1,1,1,1,1,1],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 205, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(201, 203, 207, 0.2)',
+                    'rgba(255, 87, 51, 0.2)',   
+                    'rgba(144, 238, 144, 0.2)',  
+                    'rgba(238, 130, 238, 0.2)',  
+                    'rgba(173, 216, 230, 0.2)',  
+                    'rgba(255, 182, 193, 0.2)'   
+                ],
+                borderColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(255, 159, 64)',
+                    'rgb(255, 205, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(54, 162, 235)',
+                    'rgb(153, 102, 255)',
+                    'rgb(201, 203, 207)',
+                    'rgb(255, 87, 51)',    
+                    'rgb(144, 238, 144)',  
+                    'rgb(238, 130, 238)',  
+                    'rgb(173, 216, 230)',
+                    'rgb(255, 182, 193)'
+                ],
+                  borderWidth: 1
+            }
+        ]
+    });
     const options = {
         scales: {
             y: {
@@ -103,7 +150,23 @@ export default function Analytics() {
         }
     }
 
-    
+    const fetchValues = async () => {
+        const new_user = await getUser(id);
+        console.log("newUser: " + new_user );
+        console.log("id: " + id)
+        setMaxDayGoal(new_user.dayCompletion);
+        setMaxWeekGoal(new_user.yearCompletion);
+        setMaxMonthGoal(new_user.monthCompletion);
+        setMaxYearGoal(new_user.weekCompletion);
+        
+      }
+
+    const getAverage = async () => {
+        const average = await getAverageCompDate(id);
+        console.log(average);
+        setAvComp(average);
+        
+    }
     
     useEffect(() => {
         
@@ -142,12 +205,23 @@ export default function Analytics() {
         console.log('week total : ' + weekTotal);
         console.log('month total : ' + monthTotal);
         setTasks(value);
+
+        getAverage(id);
+        fetchValues();
+        
     },[value])
 
+
+
+    
+
     useEffect(() => {
-        console.log('tasks: ' + tasks);
-        console.log('value' + value);
-    },[tasks])
+        console.log('max day goal : ' + maxDayGoal);
+    },[maxDayGoal])
+
+    useEffect(() => {
+        console.log('average: ' + avComp)
+    },[avComp])
 
 
 
@@ -162,6 +236,7 @@ export default function Analytics() {
         setAvYear(year);
 
         let daymappings = await dayCompletion(id);
+        let monthMappings = await monthCompletion(id);
         setData({
             labels: ['Mon','Tue','Wed','Thurs','Fri','Sat','Sun'],
             datasets: [
@@ -190,6 +265,47 @@ export default function Analytics() {
                 }
             ]
         });
+
+        setData2({
+            labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+            datasets: [
+                {
+                    label:'Average Task Completion By Month',
+                    data:[monthMappings[0],monthMappings[1],monthMappings[2],monthMappings[3],monthMappings[4],monthMappings[5],monthMappings[6],monthMappings[7],monthMappings[8],monthMappings[9],monthMappings[10],monthMappings[11],],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 205, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(201, 203, 207, 0.2)',
+                        'rgba(255, 87, 51, 0.2)',   
+                        'rgba(144, 238, 144, 0.2)',  
+                        'rgba(238, 130, 238, 0.2)',  
+                        'rgba(173, 216, 230, 0.2)',  
+                        'rgba(255, 182, 193, 0.2)'   
+                    ],
+                    borderColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(255, 159, 64)',
+                        'rgb(255, 205, 86)',
+                        'rgb(75, 192, 192)',
+                        'rgb(54, 162, 235)',
+                        'rgb(153, 102, 255)',
+                        'rgb(201, 203, 207)',
+                        'rgb(255, 87, 51)',    
+                        'rgb(144, 238, 144)',  
+                        'rgb(238, 130, 238)',  
+                        'rgb(173, 216, 230)',
+                        'rgb(255, 182, 193)'
+                    ],
+                      borderWidth: 1
+                }
+            ]
+        })
+
+        
         console.log('DayMapping analytics : ' + daymappings[1] );
         setDayMapping(dayMapping)
     }
@@ -221,7 +337,9 @@ export default function Analytics() {
     return (
         <>
             <div className="anly-container">
-                <SideBar  />
+                <div className="sidebar-anly">
+                    <SideBar  />
+                </div>  
                 <div className="anly-body">
                     <div className="anly-header">
                         <div className="anly-header-name">Analytics</div>
@@ -229,21 +347,21 @@ export default function Analytics() {
                             <div className="first-two">
                             <div className="daily-av av">
                                 <div className="daily-av-label dal">Average Day long task completion rate </div>
-                                {avDay}%
+                                {(isNaN(avDay)) ?  '0' : (avDay)}%
                             </div>
                             <div className="weekly-av av">
                                 <div className="weekly-av-label dal">Average Week long task completion rate</div> 
-                                {avWeek}%
+                                {(isNaN(avWeek)) ?  '0' : (avWeek)}%
                             </div>
                             </div>
                             <div className="second-two">
                                 <div className="monthly-av av">
                                     <div className="monthly-av-label dal">Average Month long task completion rate</div>
-                                    {avMonth}%
+                                    {(isNaN(avMonth)) ?  '0' : (avMonth)}%
                                 </div>
                                 <div className="yearly-av av">
                                     <div className="yearly-av-label dal">Average Year long task completion rate</div>
-                                    {avYear}%
+                                    {(isNaN(avYear)) ?  '0' : (avYear)}%
                                 </div>
                             </div>
                             
@@ -254,15 +372,22 @@ export default function Analytics() {
                             <Bar
                                 data={data}
                                 options={options}
+                                
                             ></Bar>
                         </div>
+                        <div className="bar-chart2">
+                            <Bar
+                                data={data2}
+                                options={options}
+                            ></Bar>
+                        </div> 
                     </div>
                     <div className="charts-row2">
                         <div className="progress-bar">
-                            Daily Progress <ProgressBar animated variant='success' now={dayGoal} min={0} max={100}/>
-                            Weekly Progress <ProgressBar animated variant='info' now={weekGoal} min={0} max={100}/>
-                            Monthly Progress <ProgressBar animated variant='warning' now={monthGoal} min={0} max={100}/>
-                            Yearly Progress <ProgressBar animated variant='danger' now={yearGoal} min={0} max={100}/>
+                            Distance to Daily Goal <ProgressBar animated variant='success' now={dayGoal} min={0} max={maxDayGoal} style={{ width: `${maxDayGoal}%` }}/>
+                            Distance to Weekly Goal <ProgressBar animated variant='info' now={weekGoal} min={0} max={maxWeekGoal} style={{ width: `${maxWeekGoal}%` }}/>
+                            Distance to Monthly Goal <ProgressBar animated variant='warning' now={monthGoal} min={0} max={maxMonthGoal} style={{ width: `${maxMonthGoal}%` }}/>
+                            Distance to Yearly Goal <ProgressBar animated variant='danger' now={yearGoal} min={0} max={maxYearGoal} style={{ width: `${maxYearGoal}%` }}/>
                         </div>
                     </div>
                 </div>

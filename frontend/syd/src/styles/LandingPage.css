@@ -20,6 +20,7 @@
     align-items: center;
     margin-bottom: 3rem;
     flex-wrap: wrap;
+    
 }
 
 .display-tasks {
@@ -64,6 +65,9 @@
 .score-header {
     font-size:3rem;
     font-family: "Bowlby One", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .btn-score {
@@ -77,5 +81,33 @@
     font-size: 1.8rem;
     border-radius: 50%;
     color: white;
+    
+}
+
+@media (max-width: 1070px) {
+    .score-number {
+        font-size:15rem;
+    }
+    
+}
+
+@media (max-width: 915px) {
+    .score-number {
+        font-size:10rem;
+    }
+    
+}
+
+@media (max-width: 600px) {
+    .score-number {
+        font-size:7rem;
+    }
+
+    .btn-score {
+        width:2rem;
+        height:2rem;
+        border-radius: 50%;
+        font-size:1rem;
+    }
     
 }

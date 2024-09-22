@@ -34,10 +34,8 @@ export default function SideBar() {
 
         window.addEventListener('resize', handleResize);
 
-        // Call handler right away so state gets updated with initial window size
         handleResize();
 
-        // Remove event listener on cleanup
         return () => {
             window.removeEventListener('resize', handleResize);
         };
@@ -69,10 +67,10 @@ export default function SideBar() {
                         <FaChartBar />
                         {open && <div className="charts">Analytics</div>}
                     </div>
-                    <div className="tables-sb el" onClick={() => redirect('/Table')}>
+                    {/* <div className="tables-sb el" onClick={() => redirect('/Table')}>
                         <TbTableShare />
                         {open && <div className="tables">Tables</div>}
-                    </div>
+                    </div> */}
                 </div>
                 <div className="close">
                     {open ? (
