@@ -26,13 +26,14 @@ The implementation of a test score rating motivates users to maintain a high sco
 ![Score-Type](./pictures/syd2.png)
 #### By clicking on the Due date dropdown you can filter your task by All, day, week, month and year.
 ![task-filter](./pictures/syd3.png)
-#### To go to the utilities section, simply click on the Utilities icon or text in the sidebar. This is the page where you will be able to manipulate your tasks.
+#### To go to the utilities section, simply click on the Utilities icon or text in the sidebar. This is the page where you will be able to manipulate your tasks. To delete a task click on the delete button and click on the task you want to delete. Alternatively, to update a task, you can click on the update button and click on whichever task you want to update, this will then show you a popup in which you can change the description, name and due date.
 ![Utilities](./pictures/syd4.png)
 #### You can add a task by clicking on the add task button at the top of the page. This will open a popup in which you can set the tasks name and description. You can also set the due date of the task and dynamically multiply the task to each day of the week, month or year.
 ![Add-Task](./pictures/syd5.png)
 #### You can also, set a goal for each day, week, month and year by clicking on the set goal button at the top of the page and choosing which from the dropdowns.
 ![Set-Goal](./pictures/syd6.png)
-#### 
+#### To view analytics click on the analytics section in the sidebar. This page will give you information on the score of the length of tasks, it will also show your average by day and by month, and finnaly it will display how far you are away from reaching your daily, weekly, monthly and yearly goal.
+![Analytics](./pictures/syd7.png)
 
 ## Contact
 #### Afolabi Adekanle - afolabiadekanle@gmail.com - [![linkedin][linked-in]][LinkedIn-url]
