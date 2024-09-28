@@ -20,7 +20,7 @@ The implementation of a test score rating motivates users to maintain a high sco
 - **Analytics**: Users can see how well they do on each day of the week or month of the year, and also see how close they are to their target score.
 
 # Usage
-#### After signing in and arriving at the landing page, you will see a score, you can click the arrows adjacent to it to view your score for the week, month, year and day. Below that you will see your tasks, and hovering over them will show the task description and end date. You can also change the completion of the task here, by using the slider.
+#### After signing in and arriving at the landing page, you will see a score, you can click the arrows adjacent to it to view your score for the week, month, year and day. Below that you will see your tasks, and hovering over them will expand the task and show the task description and end date. You can also change the completion of the task here, by using the slider.
 ![Landing-Page](./pictures/syd1.png)
 #### You can also change how you view your score, by clicking on the score type, and selecting one of the values in the dropdown.
 ![Score-Type](./pictures/syd2.png)
