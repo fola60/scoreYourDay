@@ -73,33 +73,33 @@ export default function Utilities() {
         } else if (modalDisplay == 2) {
             const newUser = user;
             if (completion > 100) {
-                newUser.dayCompletion = 100;
+                newUser.weekCompletion = 100;
             } else if (completion < 1) {
-                newUser.dayCompletion = 1;
+                newUser.weekCompletion = 1;
             } else {
-                newUser.dayCompletion = completion;
+                newUser.weekCompletion = completion;
             }
             
             await updateUser(newUser,id);
         } else if (modalDisplay == 3) {
             const newUser = user;
             if (completion > 100) {
-                newUser.dayCompletion = 100;
+                newUser.monthCompletion = 100;
             } else if (completion < 1) {
-                newUser.dayCompletion = 1;
+                newUser.monthCompletion = 1;
             } else {
-                newUser.dayCompletion = completion;
+                newUser.monthCompletion = completion;
             }
             
             await updateUser(newUser,id);
         } else if (modalDisplay == 4) {
             const newUser = user;
             if (completion > 100) {
-                newUser.dayCompletion = 100;
+                newUser.yearCompletion = 100;
             } else if (completion < 1) {
-                newUser.dayCompletion = 1;
+                newUser.yearCompletion = 1;
             } else {
-                newUser.dayCompletion = completion;
+                newUser.yearCompletion = completion;
             }
             
             await updateUser(newUser,id);
@@ -174,9 +174,9 @@ export default function Utilities() {
                         <AddTask />
                         <DropdownButton id="dropdown-basic-button" title={'Set Goal'}>
                             <Dropdown.Item  eventKey="1" onClick={() => {handleShow(); setModalDisplay(1)}}>Today</Dropdown.Item>
-                            <Dropdown.Item  eventKey="2" onClick={() => {handleShow(); setModalDisplay(2)}}>This week</Dropdown.Item>
+                            <Dropdown.Item  eventKey="2" onClick={() => {handleShow(); setModalDisplay(4)}}>This week</Dropdown.Item>
                             <Dropdown.Item  eventKey="3" onClick={() => {handleShow(); setModalDisplay(3)}}>This Month</Dropdown.Item>
-                            <Dropdown.Item  eventKey="4" onClick={() => {handleShow(); setModalDisplay(4)}}>This Year</Dropdown.Item>
+                            <Dropdown.Item  eventKey="4" onClick={() => {handleShow(); setModalDisplay(2)}}>This Year</Dropdown.Item>
                         </DropdownButton>
                         
                     </div>  
@@ -235,7 +235,7 @@ export default function Utilities() {
                         <Modal.Title>Completion Goal</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                        <Form>
+                        <Form onSubmit={(e) => e.preventDefault()}>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                             {modalDisplay == 0 && <Form.Label>goal</Form.Label>}
                             {modalDisplay == 1 && <Form.Label>Daily goal</Form.Label>}

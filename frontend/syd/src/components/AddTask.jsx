@@ -133,7 +133,7 @@ export default function AddTask() {
           <Modal.Title>Add Task</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
+          <Form onSubmit={(e) => e.preventDefault()}>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Task Name</Form.Label>
               <Form.Control

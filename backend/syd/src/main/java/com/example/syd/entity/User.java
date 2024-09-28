@@ -17,29 +17,24 @@ public class User {
     @Column(name="email")
     private String email;
 
-    @Column(nullable = false, name="name", unique = true)
+    @Column(name="name")
     private String name;
-
-    @Column(name = "password")
-    private String password;
 
     @Column(name="time_added")
     private LocalDate timeAdded;
 
     @Column(name = "day_completion")
-    private Integer dayCompletion;
+    private Integer dayCompletion = 40;
 
     @Column(name = "month_completion")
-    private Integer monthCompletion;
+    private Integer monthCompletion = 40;
 
     @Column(name = "year_completion")
-    private Integer yearCompletion;
+    private Integer yearCompletion = 40;
 
     @Column(name = "week_completion")
-    private Integer weekCompletion ;
+    private Integer weekCompletion = 40;
 
-    @Column(name = "role")
-    private String roles; // Admin, User, etc..
 
 
     public String getId() {
@@ -106,20 +101,6 @@ public class User {
         this.dayCompletion = dayCompletion;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
 
-    public String getRoles() {
-        return roles;
-    }
-
-    public void setRoles(String roles) {
-        this.roles = roles;
-    }
 }

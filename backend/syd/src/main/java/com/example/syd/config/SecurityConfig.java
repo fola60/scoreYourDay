@@ -1,5 +1,4 @@
 package com.example.syd.config;
-import com.example.syd.config.UserConfig.UserInfoManagerConfig;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,32 +35,7 @@ public class SecurityConfig {
     @Value("${frontend.url}")
     private String frontendUrl;
 
-    private final UserInfoManagerConfig userInfoManagerConfig;
 
-    @Order(1)
-    @Bean
-    public SecurityFilterChain apiSecurityFilterChain(HttpSecurity httpSecurity) throws Exception{
-        return httpSecurity
-                .securityMatcher(new AntPathRequestMatcher("/api/**"))
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-                .userDetailsService(userInfoManagerConfig)
-                .formLogin(withDefaults())
-                .httpBasic(withDefaults())
-                .build();
-    }
-
-    @Order(2)
-    @Bean
-    public SecurityFilterChain h2ConsoleSecurityFilterChainConfig(HttpSecurity httpSecurity) throws Exception{
-        return httpSecurity
-                .securityMatcher(new AntPathRequestMatcher(("/h2-console/**")))
-                .authorizeHttpRequests(auth->auth.anyRequest().permitAll())
-                .csrf(csrf -> csrf.ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")))
-                // to display the h2Console in Iframe
-                .headers(headers -> headers.frameOptions(withDefaults()).disable())
-                .build();
-    }
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
