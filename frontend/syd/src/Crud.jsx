@@ -1,6 +1,6 @@
 //File to execute all crud operations
 
-export const SEREVR_URL = "https://scoreyourday.xyz";
+export const SEREVR_URL = "https://api.scoreyourday.xyz";
 
 export async function createTask(task) {
         

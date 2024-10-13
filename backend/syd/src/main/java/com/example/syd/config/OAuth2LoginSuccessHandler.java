@@ -58,7 +58,7 @@ public class OAuth2LoginSuccessHandler extends SavedRequestAwareAuthenticationSu
                         newUser.setId(userId);
                         userService.saveUser(newUser);
                     });
-            String redirectUrl = "https://scoreyourday.xyz/?id=" + userId;
+            String redirectUrl = "http://localhost:3000/?id=" + userId;
             response.sendRedirect(redirectUrl);
         }
         this.setAlwaysUseDefaultTargetUrl(true);
