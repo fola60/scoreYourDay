@@ -45,7 +45,7 @@ export default function LandingPage() {
     useEffect(() => {
         dispatch(fetchTasks(id));
         if (!id) {
-            //window.location.href = SEREVR_URL  + "/login" 
+            window.location.href = SEREVR_URL  + "/login" 
         }
 
       }, [id, dispatch]);

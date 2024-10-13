@@ -43,7 +43,7 @@ export async function readTasks(id) {
             
         } catch (error) {
             console.error('error read: ' + error);
-            window.location.href = SEREVR_URL;
+            //window.location.href = SEREVR_URL;
         }
 
     
