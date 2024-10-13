@@ -14,6 +14,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
 
+
 function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
@@ -44,7 +45,7 @@ export default function LandingPage() {
     useEffect(() => {
         dispatch(fetchTasks(id));
         if (!id) {
-            window.location.href = SEREVR_URL  + "/login" 
+            //window.location.href = SEREVR_URL  + "/login" 
         }
 
       }, [id, dispatch]);

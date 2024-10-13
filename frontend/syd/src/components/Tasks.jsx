@@ -14,6 +14,8 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import { filterByDay,filterByWeek,filterByMonth,filterByYear } from './ArrangeDates';
 import { v4 as uuidv4 } from 'uuid';
 
+
+
 function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
@@ -166,7 +168,7 @@ export default function Tasks({ tasks }) {
                       }}>This Year</Dropdown.Item>
                 </DropdownButton>
                 {displayed.map((task,index) => (
-                    <div className="task" key={task.id} onMouseEnter={() => {setExpandInfo(true); setCurrentDiv(index)}} onMouseLeave={() => setExpandInfo(false)}>
+                    <div className="task" key={task.id} onClick={() => {setExpandInfo(!expandInfo); setCurrentDiv(index)}} >
                         <div className="top">
                             <div className="name">{task.taskName}</div>
                             <div className="completion">
